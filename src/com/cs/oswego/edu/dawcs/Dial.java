@@ -17,14 +17,17 @@ import android.widget.ImageView;
 public class Dial extends ImageView {
 
 	private final boolean CLICK = true;
+	private final int CLICK_NUM = 15;
 	
 	private float angle = 0f;
 	private float theta_old = 0f;
 	private float angle_old=0f;
 	private int width;
 	private int height;
-
+	private float val = 0;
+	
 	private DialListener listener;
+	private Direction direction;
 	
 	private MediaPlayer mediaPlayer = MediaPlayer.create(getContext(), R.raw.click);
 
@@ -68,7 +71,7 @@ public class Dial extends ImageView {
 		float theta2 = theta * rad2deg;
 		
 		if(CLICK){
-			float rounded = 10*(Math.round(theta2/10));
+			float rounded = CLICK_NUM*(Math.round(theta2/CLICK_NUM));
 			theta2 = rounded;
 		}
 		
@@ -77,6 +80,7 @@ public class Dial extends ImageView {
 		}else if((theta2 >= 90)&&(theta2 < 120)){
 			theta2 = 120;
 		}
+				
 		return (theta2 < 0) ? theta2 + 360.0f : theta2;
 	}
 
@@ -103,14 +107,23 @@ public class Dial extends ImageView {
 					float delta_theta = theta - theta_old;
 					theta_old = theta;
 
-					// int direction = (delta_theta > 0) ? 1 : -1;
+//					direction = (delta_theta > 0) ? 1 : -1;
 					angle = theta - 270;
 
 					if(angle_old != angle && CLICK){
-						System.out.println("Play sound now...");
+//						System.out.println("Play sound now...");
 						mediaPlayer.start();
 					}
-					notifyListener(delta_theta, (theta + 90) % 360);
+					if((((theta + 90) % 360) <= 360) && (((theta + 90) % 360) >= 210)){
+						val = ((theta + 90) % 360)-210;
+					}else{
+						val = ((theta + 90) % 360)+150;
+					}
+					
+					
+					
+//					notifyListener(delta_theta, (theta + 90) % 360);
+					notifyListener(delta_theta, val);
 				}
 				return true;
 			}
@@ -126,5 +139,13 @@ public class Dial extends ImageView {
 	protected void onDraw(Canvas c) {
 		c.rotate(angle, width / 2, height / 2);
 		super.onDraw(c);
+	}
+	
+	public float getVal(){
+		return val;
+	}
+	private enum Direction{
+		left,
+		right;
 	}
 }
