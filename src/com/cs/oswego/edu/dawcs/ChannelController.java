@@ -7,8 +7,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -26,13 +24,11 @@ public class ChannelController extends LinearLayout{
 	private Dial eq_low;
 	private TextView panLvl;
 	private VerticalSlider gain;
-	private Spinner chanNum;
+	private Spinner chan_num;
 	
 	private final boolean show_eq;
 	private final boolean show_pan;
 	private final boolean show_gain;
-	
-	private int channelNum;
 	
 
 	public ChannelController(Context context, boolean show_eq, boolean show_pan, boolean show_gain) {
@@ -65,20 +61,12 @@ public class ChannelController extends LinearLayout{
 		
 		pan.setDialListener(new Dial.DialListener() {
 			@Override
-			public void onDialChanged(float delta, float val) {
-//				panLvl.setText("" + val);
+			public void onDialChanged(float delta, float angle) {
+				panLvl.setText("" + angle);
 				if (delta > 0)
 					; // rotate right 
 				else
 					; // rotate left 
-				
-				if(val<=150){
-					double x = Math.floor((((val - 150)/150)*100));
-					panLvl.setText("-" + Math.abs(x));
-				}else{
-					double x = Math.floor((((val - 150)/150)*100));
-					panLvl.setText("+" + Math.abs(x));
-				}
 			}	
 		});
 		
@@ -103,32 +91,15 @@ public class ChannelController extends LinearLayout{
         	channels.add(c + (i+1));
         }
         
-        chanNum = (Spinner) findViewById(R.id.chan_num);
+        chan_num = (Spinner) findViewById(R.id.chan_num);
         
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_item, channels);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        chanNum.setAdapter(dataAdapter);
-        
-        chanNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-        	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            	channelNum = pos;
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        chan_num.setAdapter(dataAdapter);
 	}
 	
 	public void addCloseListener(OnClickListener ocl){
 		close.setOnClickListener(ocl);
-	}
-	
-	public int getChannelNum(){
-		return channelNum;
-	}
-	
-	public void setChannelNum(int c){
-		channelNum = c;
 	}
 
 }

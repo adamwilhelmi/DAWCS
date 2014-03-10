@@ -17,7 +17,6 @@ public class DAWCS extends Activity {
     final ArrayList<ChannelController> channels = new ArrayList<ChannelController>();
     
     HashMap<ChannelController, View> bufferMap = new HashMap<ChannelController, View>();
-    ArrayList<Integer> unavailChannels = new ArrayList<Integer>();
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
