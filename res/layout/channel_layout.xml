@@ -3,77 +3,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:background="@drawable/square"
     android:orientation="vertical" >
-     
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal" >
+
         <Spinner
-	        android:id="@+id/chan_num"
-	        android:layout_width="85dp"
-	        android:layout_height="wrap_content"/>
-	     <Button
-	        android:id="@+id/x"
-	        android:layout_width="15dp"
-	        android:layout_height="wrap_content"
-	        android:text="[x]"
-	        android:textSize="12sp"
-	        android:textColor="@color/DarkRed"
-	        android:background="@android:color/transparent"/>
-     </LinearLayout>
-     
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center">
-	
-        <com.cs.oswego.edu.dawcs.Dial
-			android:id="@+id/eq_high"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
-			android:layout_gravity="center"
-			android:layout_marginBottom="5dp"
-			android:background="@drawable/eq1"/>
-        <com.cs.oswego.edu.dawcs.Dial
-			android:id="@+id/eq_mid"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
-			android:layout_gravity="center"
-			android:layout_marginBottom="5dp"/>
-        <com.cs.oswego.edu.dawcs.Dial
-			android:id="@+id/eq_low"
-			android:layout_width="40dp"
-			android:layout_height="40dp"
-			android:layout_gravity="center"
-			android:layout_marginBottom="20dp"/>
-            
+            android:id="@+id/chan_num"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/x"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:text="[x]"
+            android:textColor="@color/DarkRed"
+            android:textSize="12sp" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical" >
+
+            <com.cs.oswego.edu.dawcs.Dial
+                android:id="@+id/eq_high"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp" />
+
+            <com.cs.oswego.edu.dawcs.Dial
+                android:id="@+id/eq_mid"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp" />
+
+            <com.cs.oswego.edu.dawcs.Dial
+                android:id="@+id/eq_low"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioGroup
+                android:id="@+id/radioGroups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <RadioButton
+                    android:id="@+id/group1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:checked="false"
+                    android:text="1"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:id="@+id/group2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:text="2"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:id="@+id/group3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:text="3"
+                    android:textSize="10sp" />
+
+                <RadioButton
+                    android:id="@+id/group4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:text="4"
+                    android:textSize="10sp" />
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+
     <com.cs.oswego.edu.dawcs.Dial
-		android:id="@+id/pan"
-		android:layout_width="70dp"
-		android:layout_height="70dp"
-		android:layout_gravity="center"/>
+        android:id="@+id/pan"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"/>
+
     <TextView
         android:id="@+id/pan_lvl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor="@color/Chartreuse"/>
+        android:textColor="@color/Chartreuse" />
 
     <com.cs.oswego.edu.dawcs.VerticalSlider
         android:id="@+id/gain"
-        android:max="255"
-        android:layout_width="wrap_content" 
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="30dp"
-        android:layout_gravity="center"
-        android:progressDrawable="@drawable/seekbar_progress"
+        android:max="255"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
-        android:progress="0" />
+        android:progress="0"
+        android:progressDrawable="@drawable/seekbar_progress" />
 
 </LinearLayout>

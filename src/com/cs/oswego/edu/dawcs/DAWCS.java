@@ -6,10 +6,14 @@ import java.util.HashMap;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -19,18 +23,41 @@ public class DAWCS extends Activity {
     HashMap<ChannelController, View> bufferMap = new HashMap<ChannelController, View>();
     ArrayList<Integer> unavailChannels = new ArrayList<Integer>();
     
+    Button addChannel;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dawcs);
         
         setContentView(R.layout.activity_dawcs);
-        final LinearLayout ll = (LinearLayout)findViewById(R.id.LinearLayout1);
+        final LinearLayout ll = (LinearLayout)findViewById(R.id.chanHolder);
         ll.setBackgroundColor(0xffa9a9a9);
+        
+        NonFocusingHorizontalScrollView hsv = (NonFocusingHorizontalScrollView) findViewById(R.id.scroll1);
+        
+//        hsv.setScrollingEnabled(false);
+//        hsv.requestDisallowInterceptTouchEvent(false);
+//        hsv = new NonFocusingHorizontalScrollView(this){
+//        	@Override
+//        	public boolean onTouchEvent(MotionEvent ev) { 
+//        		if(ev.getPointerCount() > 1){
+//        			return true;
+//        		}
+//        		else{
+//        			return false; 
+//        		}
+//        	} 
+//
+//        	@Override
+//        	public boolean onInterceptTouchEvent(MotionEvent ev) { 
+//        		
+//        		return false; 
+//        	} 
+//        };
         
         addChannel(ll);
         
-        Button addChannel = (Button) findViewById(R.id.add_channel);
+        addChannel = (Button) findViewById(R.id.add_channel);
         addChannel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -56,10 +83,14 @@ public class DAWCS extends Activity {
                 removeChannel(newChannel, ll);
             }
         });
+        
+//        newChannel.requestDisallowInterceptTouchEvent(true);
+        
         channels.add(newChannel);
         ll.addView(newChannel);
         genBufferView(newChannel);
         ll.addView(bufferMap.get(newChannel));
+        
         
     }
     public void removeChannel(ChannelController cc, LinearLayout ll){
