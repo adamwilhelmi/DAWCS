@@ -57,7 +57,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15dp" />
+                android:layout_marginBottom="10dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -101,18 +101,26 @@
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>
+    
+    <TextView
+        android:id="@+id/pan_lvl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/Chartreuse" />
 
     <com.cs.oswego.edu.dawcs.Dial
         android:id="@+id/pan"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"/>
-
+    
     <TextView
-        android:id="@+id/pan_lvl"
+        android:id="@+id/gain_lvl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:paddingTop="5dp"
         android:textColor="@color/Chartreuse" />
 
     <com.cs.oswego.edu.dawcs.VerticalSlider
@@ -123,7 +131,6 @@
         android:layout_marginBottom="30dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
-        android:max="255"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:progress="0"

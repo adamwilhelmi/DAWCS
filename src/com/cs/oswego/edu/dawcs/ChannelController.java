@@ -28,6 +28,7 @@ public class ChannelController extends LinearLayout{
 	private Dial eq_mid;
 	private Dial eq_low;
 	private TextView panLvl;
+	private TextView gainLvl;
 	private VerticalSlider gain;
 	private Spinner chanNum;
 	
@@ -75,12 +76,11 @@ public class ChannelController extends LinearLayout{
 
 					if(val<=150){
 						double x = Math.floor((((val - 150)/150)*100));
-						panLvl.setText("-" + Math.abs(x));
+						panLvl.setText("L " + Math.abs(x));
 					}else{
 						double x = Math.floor((((val - 150)/150)*100));
-						panLvl.setText("+" + Math.abs(x));
+						panLvl.setText("R " + Math.abs(x));
 					}
-					NonFocusingHorizontalScrollView.mScrollable = true;
 				}	
 			});
 		}
@@ -91,7 +91,9 @@ public class ChannelController extends LinearLayout{
 		
 		if (show_gain) {
 			gain = (VerticalSlider) findViewById(R.id.gain);
+			gain.setMax(Byte.MAX_VALUE);
 			gain.setThumb(getResources().getDrawable(R.drawable.thumb1));
+			gainLvl = (TextView) findViewById(R.id.gain_lvl);
 			gain.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 				@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {
@@ -102,8 +104,8 @@ public class ChannelController extends LinearLayout{
 				}
 
 				@Override
-				public void onProgressChanged(SeekBar seekBar, int progress,
-						boolean fromUser) {
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+					gainLvl.setText(String.format("%.1f",((gain.getProgress()/new Float(gain.getMax()))*100)));
 				}
 			});
 		}

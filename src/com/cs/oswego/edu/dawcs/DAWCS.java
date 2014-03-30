@@ -24,6 +24,7 @@ public class DAWCS extends Activity {
     ArrayList<Integer> unavailChannels = new ArrayList<Integer>();
     
     Button addChannel;
+    Button toggleScroll;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +56,16 @@ public class DAWCS extends Activity {
 //        	} 
 //        };
         
-        addChannel(ll);
-        
-        addChannel = (Button) findViewById(R.id.add_channel);
+        for (int i = 0; i < 10; i++) {
+			addChannel(ll);
+		}
+		addChannel = (Button) findViewById(R.id.add_channel);
         addChannel.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 addChannel(ll);
             }
         });
-        
     }
 
     @Override

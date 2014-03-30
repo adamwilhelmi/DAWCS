@@ -27,11 +27,11 @@ public class NonFocusingHorizontalScrollView extends HorizontalScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-    	if(ev.getPointerCount()>1){
-    		mScrollable = true;
-    	} else {
-    		mScrollable = false;
-    	}
+//    	if(ev.getPointerCount()>1){
+//    		mScrollable = true;
+//    	} else {
+//    		mScrollable = false;
+//    	}
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 // if we can scroll pass the event to the superclass
@@ -45,11 +45,14 @@ public class NonFocusingHorizontalScrollView extends HorizontalScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-    	if(ev.getPointerCount()>1){
-    		mScrollable = true;
-    	} else {
-    		mScrollable = false;
-    	}
+//    	if(ev.getPointerCount()>1){
+//    		mScrollable = true;
+//    	} else {
+//    		mScrollable = false;
+//    	}
+    	
+    	System.out.println("mScrollable: " + mScrollable);
+    	
         // Don't do anything with intercepted touch events if 
         // we are not scrollable
         if (!mScrollable) return false;

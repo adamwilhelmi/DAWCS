@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.SeekBar;
 
 public class VerticalSlider extends SeekBar{
@@ -35,26 +36,29 @@ public class VerticalSlider extends SeekBar{
 
 		super.onDraw(c);
 	}
-
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (!isEnabled()) {
 			return false;
 		}
+		System.out.println("Action: " + event.toString());
 //		NonFocusingHorizontalScrollView.mScrollable = false;
 //		System.out.println("Disabling scrolling...");
 		
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
-			
+			NonFocusingHorizontalScrollView.mScrollable = false;
+			System.out.println("Disabling scrolling...");
 		case MotionEvent.ACTION_MOVE:
+			setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
+			onSizeChanged(getWidth(), getHeight(), 0, 0);
+			break;
 		case MotionEvent.ACTION_UP:
 			setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
 			onSizeChanged(getWidth(), getHeight(), 0, 0);
-//			NonFocusingHorizontalScrollView.mScrollable = true;
-//			System.out.println("Re-enabling scrolling...");
-			break;
-		case MotionEvent.ACTION_CANCEL:
+			NonFocusingHorizontalScrollView.mScrollable = true;
+			System.out.println("Re-enabling scrolling...");
 			break;
 		}
 

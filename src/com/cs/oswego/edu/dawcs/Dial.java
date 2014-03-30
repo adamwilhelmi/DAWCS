@@ -101,11 +101,11 @@ public class Dial extends ImageView {
 					float y = event.getY(0);
 					theta_old = getTheta(x, y);
 				} else if (actionCode == MotionEvent.ACTION_DOWN){
-//					NonFocusingHorizontalScrollView.mScrollable = true;
-//					System.out.println("Re-enabling scrolling...");
+					NonFocusingHorizontalScrollView.mScrollable = false;
+					System.out.println("disabling scrolling...");
 				} else if(actionCode == MotionEvent.ACTION_UP){
-//					NonFocusingHorizontalScrollView.mScrollable = true;
-//					System.out.println("Disabling scrolling...");
+					NonFocusingHorizontalScrollView.mScrollable = true;
+					System.out.println("re-enabling scrolling...");
 				} else if (actionCode == MotionEvent.ACTION_MOVE) {
 					invalidate();
 
