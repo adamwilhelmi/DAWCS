@@ -36,27 +36,7 @@ public class DAWCS extends Activity {
         
         NonFocusingHorizontalScrollView hsv = (NonFocusingHorizontalScrollView) findViewById(R.id.scroll1);
         
-//        hsv.setScrollingEnabled(false);
-//        hsv.requestDisallowInterceptTouchEvent(false);
-//        hsv = new NonFocusingHorizontalScrollView(this){
-//        	@Override
-//        	public boolean onTouchEvent(MotionEvent ev) { 
-//        		if(ev.getPointerCount() > 1){
-//        			return true;
-//        		}
-//        		else{
-//        			return false; 
-//        		}
-//        	} 
-//
-//        	@Override
-//        	public boolean onInterceptTouchEvent(MotionEvent ev) { 
-//        		
-//        		return false; 
-//        	} 
-//        };
-        
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) { //for debugging/testing only - adds 10 channels on load
 			addChannel(ll);
 		}
 		addChannel = (Button) findViewById(R.id.add_channel);

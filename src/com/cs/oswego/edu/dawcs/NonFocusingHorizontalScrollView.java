@@ -51,7 +51,7 @@ public class NonFocusingHorizontalScrollView extends HorizontalScrollView {
 //    		mScrollable = false;
 //    	}
     	
-    	System.out.println("mScrollable: " + mScrollable);
+//    	System.out.println("mScrollable: " + mScrollable);
     	
         // Don't do anything with intercepted touch events if 
         // we are not scrollable

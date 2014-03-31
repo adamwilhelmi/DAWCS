@@ -42,14 +42,11 @@ public class VerticalSlider extends SeekBar{
 		if (!isEnabled()) {
 			return false;
 		}
-		System.out.println("Action: " + event.toString());
-//		NonFocusingHorizontalScrollView.mScrollable = false;
-//		System.out.println("Disabling scrolling...");
 		
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			NonFocusingHorizontalScrollView.mScrollable = false;
-			System.out.println("Disabling scrolling...");
+//			System.out.println("Disabling scrolling...");
 		case MotionEvent.ACTION_MOVE:
 			setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
 			onSizeChanged(getWidth(), getHeight(), 0, 0);
@@ -58,7 +55,7 @@ public class VerticalSlider extends SeekBar{
 			setProgress(getMax() - (int) (getMax() * event.getY() / getHeight()));
 			onSizeChanged(getWidth(), getHeight(), 0, 0);
 			NonFocusingHorizontalScrollView.mScrollable = true;
-			System.out.println("Re-enabling scrolling...");
+//			System.out.println("Re-enabling scrolling...");
 			break;
 		}
 

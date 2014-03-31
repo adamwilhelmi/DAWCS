@@ -68,20 +68,18 @@ public class ChannelController extends LinearLayout{
 			pan.setDialListener(new Dial.DialListener() {
 				@Override
 				public void onDialChanged(float delta, float val) {
-					//				panLvl.setText("" + val);
-					if (delta > 0)
-						; // rotate right 
-					else
-						; // rotate left 
-
-					if(val<=150){
-						double x = Math.floor((((val - 150)/150)*100));
-						panLvl.setText("L " + Math.abs(x));
-					}else{
-						double x = Math.floor((((val - 150)/150)*100));
-						panLvl.setText("R " + Math.abs(x));
-					}
-				}	
+					panLvl.setText("" + val);
+//					if (delta > 0)
+//						; // rotate right 
+//					else
+//						; // rotate left 
+//					double x = Math.floor((((val - 150)/150)*100));
+//					if(val<=150){
+//						panLvl.setText("L " + Math.abs(x));
+//					}else{
+//						panLvl.setText("R " + Math.abs(x));
+//					}
+				}
 			});
 		}
 		
@@ -105,19 +103,18 @@ public class ChannelController extends LinearLayout{
 
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-					gainLvl.setText(String.format("%.1f",((gain.getProgress()/new Float(gain.getMax()))*100)));
+					gainLvl.setText(String.format("%.1f",((gain.getProgress()/Float.valueOf(gain.getMax()))*100)));
 				}
 			});
 		}
-		List<String> channels = new ArrayList<String>();
+		List<Integer> channels = new ArrayList<Integer>();
         for(int i=0;i<10;i++){
-        	String c = "Chan# ";
-        	channels.add(c + (i+1));
+        	channels.add(i+1);
         }
         
         chanNum = (Spinner) findViewById(R.id.chan_num);
         
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_item, channels);
+        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this.getContext(), R.layout.spinner_item, channels);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chanNum.setAdapter(dataAdapter);
         

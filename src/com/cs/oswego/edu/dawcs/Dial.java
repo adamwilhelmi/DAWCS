@@ -18,6 +18,7 @@ public class Dial extends ImageView {
 
 	private final boolean CLICK = true;
 	private final int CLICK_NUM = 15;
+	private final int MAX_VAL = Byte.MAX_VALUE;
 
 	private float angle = 0f;
 	private float theta_old = 0f;
@@ -25,12 +26,11 @@ public class Dial extends ImageView {
 	private int width;
 	private int height;
 	private float val = 0;
+	private int dialVal = 0;
 
 	private DialListener listener;
-	private Direction direction;
-	private boolean scrolling = true;
 
-	private MediaPlayer mediaPlayer = MediaPlayer.create(getContext(), R.raw.click);
+	private MediaPlayer mediaPlayer;
 
 	public interface DialListener {
 		public void onDialChanged(float delta, float angle);
@@ -42,15 +42,18 @@ public class Dial extends ImageView {
 
 	public Dial(Context context) {
 		super(context);
+		mediaPlayer = MediaPlayer.create(getContext(), R.raw.click);
 	}
 
 	public Dial(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initialize();
+		mediaPlayer = MediaPlayer.create(getContext(), R.raw.click);
 	}
 
 	public Dial(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		mediaPlayer = MediaPlayer.create(getContext(), R.raw.click);
 	}
 
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -75,12 +78,15 @@ public class Dial extends ImageView {
 			float rounded = CLICK_NUM*(Math.round(theta2/CLICK_NUM));
 			theta2 = rounded;
 		}
-
+		
+		//This bit of magic makes the dial stop at an angle on the bottom
 		if((theta2 > 60)&&(theta2 <= 90)){
 			theta2 = 60;
 		}else if((theta2 >= 90)&&(theta2 < 120)){
 			theta2 = 120;
 		}
+		
+		System.out.println("Theta: " + ((theta2 < 0) ? theta2 + 360.0f : theta2));
 
 		return (theta2 < 0) ? theta2 + 360.0f : theta2;
 	}
@@ -102,10 +108,10 @@ public class Dial extends ImageView {
 					theta_old = getTheta(x, y);
 				} else if (actionCode == MotionEvent.ACTION_DOWN){
 					NonFocusingHorizontalScrollView.mScrollable = false;
-					System.out.println("disabling scrolling...");
+//					System.out.println("disabling scrolling...");
 				} else if(actionCode == MotionEvent.ACTION_UP){
 					NonFocusingHorizontalScrollView.mScrollable = true;
-					System.out.println("re-enabling scrolling...");
+//					System.out.println("re-enabling scrolling...");
 				} else if (actionCode == MotionEvent.ACTION_MOVE) {
 					invalidate();
 
@@ -116,20 +122,24 @@ public class Dial extends ImageView {
 					float delta_theta = theta - theta_old;
 					theta_old = theta;
 
-					//					direction = (delta_theta > 0) ? 1 : -1;
 					angle = theta - 270;
 
 					if(angle_old != angle && CLICK){
 						//						System.out.println("Play sound now...");
 						mediaPlayer.start();
 					}
+					
 					if((((theta + 90) % 360) <= 360) && (((theta + 90) % 360) >= 210)){
 						val = ((theta + 90) % 360)-210;
 					}else{
 						val = ((theta + 90) % 360)+150;
 					}
+					
+					dialVal = (int) ((val/300f)*MAX_VAL);
 
-					//					notifyListener(delta_theta, (theta + 90) % 360);
+					System.out.println("Val: " + val);
+					System.out.println("Percent of 300 times 127: " + dialVal);
+					
 					notifyListener(delta_theta, val);
 					
 					
@@ -139,10 +149,6 @@ public class Dial extends ImageView {
 		});
 	}
 	
-	private void toggleScrolling(){
-		NonFocusingHorizontalScrollView.mScrollable = !NonFocusingHorizontalScrollView.mScrollable;
-	}
-
 	private void notifyListener(float delta, float angle) {
 		if (null != listener) {
 			listener.onDialChanged(delta, angle);
@@ -157,8 +163,12 @@ public class Dial extends ImageView {
 	public float getVal(){
 		return val;
 	}
-	private enum Direction{
-		left,
-		right;
+
+	public int getDialVal() {
+		return dialVal;
+	}
+
+	public void setDialVal(int dialVal) {
+		this.dialVal = dialVal;
 	}
 }
