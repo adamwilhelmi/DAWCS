@@ -69,16 +69,18 @@ public class ChannelController extends LinearLayout{
 				@Override
 				public void onDialChanged(float delta, float val) {
 					panLvl.setText("" + val);
-//					if (delta > 0)
-//						; // rotate right 
-//					else
-//						; // rotate left 
-//					double x = Math.floor((((val - 150)/150)*100));
-//					if(val<=150){
-//						panLvl.setText("L " + Math.abs(x));
-//					}else{
-//						panLvl.setText("R " + Math.abs(x));
-//					}
+					if (delta > 0)
+						; // rotate right 
+					else
+						; // rotate left 
+					double x = Math.floor((((val - 150)/150)*100));
+					if(val<=150){
+						panLvl.setText("L " + Math.abs(x));
+					}else{
+						panLvl.setText("R " + Math.abs(x));
+					}
+					NetHandler.getInstance().receivePacketFromChannel(new MIDIPacket(channelNum, 0xa, (int)((val / 300.0)*127)));
+
 				}
 			});
 		}
@@ -104,6 +106,8 @@ public class ChannelController extends LinearLayout{
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 					gainLvl.setText(String.format("%.1f",((gain.getProgress()/Float.valueOf(gain.getMax()))*100)));
+					NetHandler.getInstance().receivePacketFromChannel(new MIDIPacket(channelNum, 0x7, (int)(progress/((double)(seekBar.getMax()))*127)));
+
 				}
 			});
 		}

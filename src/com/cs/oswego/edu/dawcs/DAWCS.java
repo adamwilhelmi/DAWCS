@@ -1,9 +1,15 @@
 package com.cs.oswego.edu.dawcs;
 
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.net.DhcpInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -19,6 +25,8 @@ import android.widget.TextView;
 
 public class DAWCS extends Activity {
     final ArrayList<ChannelController> channels = new ArrayList<ChannelController>();
+
+    public static final int NUM_STREAMS = 1;
     
     HashMap<ChannelController, View> bufferMap = new HashMap<ChannelController, View>();
     ArrayList<Integer> unavailChannels = new ArrayList<Integer>();
@@ -46,6 +54,13 @@ public class DAWCS extends Activity {
                 addChannel(ll);
             }
         });
+
+        NetHandler.getInstance().setWifiManager(((WifiManager) this.getSystemService(DAWCS.WIFI_SERVICE)));
+       
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        NetHandler.getInstance().invokeListenerThread();
+
     }
 
     @Override
