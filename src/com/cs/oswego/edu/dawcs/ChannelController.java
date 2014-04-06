@@ -55,30 +55,31 @@ public class ChannelController extends LinearLayout{
 		
 		if (show_eq) {
 			eq_high = (Dial) findViewById(R.id.eq_high);
-			eq_high.setImageResource(R.drawable.dial1);
+			eq_high.setImageResource(R.drawable.bnb);
 			eq_mid = (Dial) findViewById(R.id.eq_mid);
-			eq_mid.setImageResource(R.drawable.dial1);
+			eq_mid.setImageResource(R.drawable.bnb);
 			eq_low = (Dial) findViewById(R.id.eq_low);
-			eq_low.setImageResource(R.drawable.dial1);
+			eq_low.setImageResource(R.drawable.bnb);
 		}
 		if (show_pan) {
 			pan = (Dial) findViewById(R.id.pan);
-			pan.setImageResource(R.drawable.dial1);
+			pan.setImageResource(R.drawable.bnb);
 			panLvl = (TextView) findViewById(R.id.pan_lvl);
 			pan.setDialListener(new Dial.DialListener() {
 				@Override
 				public void onDialChanged(float delta, float val) {
-					panLvl.setText("" + val);
-//					if (delta > 0)
-//						; // rotate right 
-//					else
-//						; // rotate left 
-//					double x = Math.floor((((val - 150)/150)*100));
-//					if(val<=150){
-//						panLvl.setText("L " + Math.abs(x));
-//					}else{
-//						panLvl.setText("R " + Math.abs(x));
-//					}
+					System.out.println("Changing dial value...");
+//					panLvl.setText("" + val);
+					if (delta > 0)
+						; // rotate right 
+					else
+						; // rotate left 
+					double x = Math.floor((((val - 150)/150)*100));
+					if(val<=150){
+						panLvl.setText("L " + Math.abs(x));
+					}else{
+						panLvl.setText("R " + Math.abs(x));
+					}
 				}
 			});
 		}
