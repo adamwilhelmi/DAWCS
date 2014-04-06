@@ -55,20 +55,25 @@ public class ChannelController extends LinearLayout{
 		
 		if (show_eq) {
 			eq_high = (Dial) findViewById(R.id.eq_high);
-			eq_high.setImageResource(R.drawable.dial1);
+			eq_high.setImageResource(R.drawable.bnb);
 			eq_mid = (Dial) findViewById(R.id.eq_mid);
-			eq_mid.setImageResource(R.drawable.dial1);
+			eq_mid.setImageResource(R.drawable.bnb);
 			eq_low = (Dial) findViewById(R.id.eq_low);
-			eq_low.setImageResource(R.drawable.dial1);
+			eq_low.setImageResource(R.drawable.bnb);
 		}
 		if (show_pan) {
 			pan = (Dial) findViewById(R.id.pan);
-			pan.setImageResource(R.drawable.dial1);
+			pan.setImageResource(R.drawable.bnb);
 			panLvl = (TextView) findViewById(R.id.pan_lvl);
 			pan.setDialListener(new Dial.DialListener() {
 				@Override
 				public void onDialChanged(float delta, float val) {
+<<<<<<< HEAD
 					panLvl.setText("" + val);
+=======
+					System.out.println("Changing dial value...");
+//					panLvl.setText("" + val);
+>>>>>>> 717e8a28a0921b49531500d80a8cca068750cf6a
 					if (delta > 0)
 						; // rotate right 
 					else
@@ -79,8 +84,11 @@ public class ChannelController extends LinearLayout{
 					}else{
 						panLvl.setText("R " + Math.abs(x));
 					}
+<<<<<<< HEAD
 					NetHandler.getInstance().receivePacketFromChannel(new MIDIPacket(channelNum, 0xa, (int)((val / 300.0)*127)));
 
+=======
+>>>>>>> 717e8a28a0921b49531500d80a8cca068750cf6a
 				}
 			});
 		}
