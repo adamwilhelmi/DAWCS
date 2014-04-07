@@ -108,15 +108,15 @@ public class ChannelController extends LinearLayout {
         
 		if (show_eq) {
 			eq_high = (Dial) findViewById(R.id.eq_high);
-			eq_high.setImageResource(R.drawable.dial1);
+			eq_high.setImageResource(R.drawable.bnb_knob);
 			eq_mid = (Dial) findViewById(R.id.eq_mid);
-			eq_mid.setImageResource(R.drawable.dial1);
+			eq_mid.setImageResource(R.drawable.bnb_knob);
 			eq_low = (Dial) findViewById(R.id.eq_low);
-			eq_low.setImageResource(R.drawable.dial1);
+			eq_low.setImageResource(R.drawable.bnb_knob);
 		}
 		if (show_pan) {
 			pan = (Dial) findViewById(R.id.pan);
-			pan.setImageResource(R.drawable.dial1);
+			pan.setImageResource(R.drawable.bnb_knob);
 			panLvl = (TextView) findViewById(R.id.pan_lvl);
 			pan.setDialListener(new Dial.DialListener() {
 				@Override
