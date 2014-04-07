@@ -122,11 +122,6 @@ public class ChannelController extends LinearLayout {
 			pan.setDialListener(new Dial.DialListener() {
 				@Override
 				public void onDialChanged(float delta, float val) {
-					//				panLvl.setText("" + val);
-					if (delta > 0)
-						; // rotate right 
-					else
-						; // rotate left 
 
 					if(val<=150){
 						double x = Math.floor((((val - 150)/150)*100));
@@ -137,7 +132,7 @@ public class ChannelController extends LinearLayout {
 					}
 				}	
 			});
-		}		
+		}
 		
 		if (show_gain) {
 			gain = (VerticalSlider) findViewById(R.id.gain);
@@ -214,9 +209,6 @@ public class ChannelController extends LinearLayout {
 	public int getChannelNum(){
 		return chan.getChanID();
 	}
-	
-	/*public void setChannelNum(int c){
-		channelNum = c;
-	}*/
+
 }
->>>>>>> 3d1cb30cb35f9140162ba921bedbd1e9254eaaf2
+
