@@ -193,21 +193,22 @@ public final class R {
         public static final int yellow=0x7f02001b;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0011;
+        public static final int action_settings=0x7f0a0012;
         public static final int add_channel=0x7f0a0002;
         public static final int chanHolder=0x7f0a0001;
         public static final int chan_num=0x7f0a0003;
         public static final int eq_high=0x7f0a0005;
         public static final int eq_low=0x7f0a0007;
         public static final int eq_mid=0x7f0a0006;
-        public static final int gain=0x7f0a0010;
-        public static final int gain_lvl=0x7f0a000f;
-        public static final int group1=0x7f0a0009;
-        public static final int group2=0x7f0a000a;
-        public static final int group3=0x7f0a000b;
-        public static final int group4=0x7f0a000c;
-        public static final int pan=0x7f0a000e;
-        public static final int pan_lvl=0x7f0a000d;
+        public static final int gain=0x7f0a0011;
+        public static final int gain_lvl=0x7f0a0010;
+        public static final int group1=0x7f0a000a;
+        public static final int group2=0x7f0a000b;
+        public static final int group3=0x7f0a000c;
+        public static final int group4=0x7f0a000d;
+        public static final int nogroup=0x7f0a0009;
+        public static final int pan=0x7f0a000f;
+        public static final int pan_lvl=0x7f0a000e;
         public static final int radioGroups=0x7f0a0008;
         public static final int scroll1=0x7f0a0000;
         public static final int x=0x7f0a0004;

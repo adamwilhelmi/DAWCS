@@ -69,7 +69,14 @@
                 android:id="@+id/radioGroups"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
-
+				
+                <RadioButton 
+                    android:id="@+id/nogroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="23dp"
+                    android:checked="true"
+                    android:text="None"
+                    android:textSize="10sp" />
                 <RadioButton
                     android:id="@+id/group1"
                     android:layout_width="wrap_content"
