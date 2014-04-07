@@ -83,19 +83,18 @@ public class ChannelController extends LinearLayout {
         		chanStr.add(c + (i + 1));
         	}
         }*/
+	    
+	    if (!DAWCS.availableChans.isEmpty()) {
+        	for (Channel available : DAWCS.availableChans) {
+        		avalChans.add(available.getChanID());
+        	}
+        }
             
         chanNumSpinner = (Spinner) findViewById(R.id.chan_num);
         
         ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this.getContext(), R.layout.spinner_item, avalChans);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chanNumSpinner.setAdapter(dataAdapter);
-        
-        if (!DAWCS.availableChans.isEmpty()) {
-        	for (Channel available : DAWCS.availableChans) {
-        		avalChans.add(available.getChanID());
-        	}
-        	dataAdapter.notifyDataSetChanged();
-        }
         
         chanNumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
