@@ -15,7 +15,9 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="horizontal"
-        android:scrollbars="horizontal" >
+        android:scrollbars="horizontal"
+        android:background="@drawable/black_bg"
+        android:tileMode="repeat" >
      <Button
             android:id="@+id/add_channel"
             android:layout_width="wrap_content"

@@ -70,20 +70,14 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal" 
+            android:paddingTop="10dp">
 
             <RadioGroup
                 android:id="@+id/radioGroups"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 				
-                <RadioButton 
-                    android:id="@+id/nogroup"
-                    android:layout_width="wrap_content"
-                    android:layout_height="23dp"
-                    android:checked="true"
-                    android:text="None"
-                    android:textSize="10sp" />
                 <RadioButton
                     android:id="@+id/group1"
                     android:layout_width="wrap_content"
@@ -118,13 +112,13 @@
     
     <TextView
         android:id="@+id/pan_lvl"
-        android:background="@+drawable/text_grad"
-         android:gravity="center_horizontal|center_vertical"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="0.0"
+        android:background="@+drawable/text_grad"
+        android:gravity="center_horizontal|center_vertical"
         android:paddingBottom="5dp"
+        android:text="0.0"
         android:textColor="@color/White" />
 
     <com.cs.oswego.edu.dawcs.Dial
@@ -151,7 +145,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:paddingLeft="30dp"

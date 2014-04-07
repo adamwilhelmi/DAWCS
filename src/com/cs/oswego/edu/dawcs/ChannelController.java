@@ -55,7 +55,7 @@ public class ChannelController extends LinearLayout {
 	private RadioButton groupThree;
 	private RadioButton groupFour;
 	
-	public ChannelController(Context context, boolean show_eq, boolean show_pan, boolean show_gain, Channel chan) {
+	public ChannelController(Context context, boolean show_eq, boolean show_pan, boolean show_gain, Channel chanIn) {
 		super(context);
 		this.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
 //		this.setBackgroundColor(getResources().getColor(R.color.Black));
@@ -64,16 +64,15 @@ public class ChannelController extends LinearLayout {
 		this.show_gain = show_gain;
 		this.show_pan = show_pan;
 		
-		this.chan = chan;
+		this.chan = chanIn;
 		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.channel_layout, this);
 
 		close = (Button)findViewById(R.id.x);
 		
-		List<String> chanStr = new ArrayList<String>();
-        String c = "Chan# ";
-	    chanStr.add(0, c + chan.getChanID());
+		List<Integer> avalChans = new ArrayList<Integer>();
+	    avalChans.add(0, chan.getChanID());
 	    
         /*for (int i = 0; i < chans.maxChannels(); i++) {
         	if (i == 0) {
@@ -87,13 +86,13 @@ public class ChannelController extends LinearLayout {
             
         chanNumSpinner = (Spinner) findViewById(R.id.chan_num);
         
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this.getContext(), R.layout.spinner_item, chanStr);
+        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this.getContext(), R.layout.spinner_item, avalChans);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chanNumSpinner.setAdapter(dataAdapter);
         
         if (!DAWCS.availableChans.isEmpty()) {
         	for (Channel available : DAWCS.availableChans) {
-        		chanStr.add(c + available.getChanID());
+        		avalChans.add(available.getChanID());
         	}
         	dataAdapter.notifyDataSetChanged();
         }
@@ -161,35 +160,120 @@ public class ChannelController extends LinearLayout {
 		groupTwo = (RadioButton) findViewById(R.id.group2);
 		groupThree = (RadioButton) findViewById(R.id.group3);
 		groupFour = (RadioButton) findViewById(R.id.group4);
-		addRadioGroupListener();
-	}
-	
-	private void addRadioGroupListener() {		
-		radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//		addRadioGroupListener();
+		
+		groupOne.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onCheckedChanged(RadioGroup radGrp, int groupId) {
-				switch (groupId){
-					case R.id.nogroup:
-						System.out.println(chan.getChanID() + " removed from group " + chan.getGroup());
-						group.get(chan.getGroup()).remove(chan);
-						chan.setGrouped(false);
-						break;
-					case R.id.group1:
-						makeGroup(1);
-						break;
-					case R.id.group2:
-						makeGroup(2);
-						break;
-					case R.id.group3:
-						makeGroup(3);
-						break;
-					case R.id.group4:
-						makeGroup(4);
-						break;
-				}				
+			public void onClick(View v) {
+				if(groupOne.isSelected()) {
+                    groupOne.setSelected(false);
+					radioGroup.clearCheck();
+					System.out.println(chan.getChanID() + " removed from group " + chan.getGroup());
+					group.get(chan.getGroup()).remove(chan);
+					chan.setGrouped(false);
+                }
+                else{
+                	makeGroup(1);
+                	groupOne.setSelected(true);
+                	groupTwo.setSelected(false);
+                	groupThree.setSelected(false);
+                	groupFour.setSelected(false);
+                	radioGroup.check(R.id.group1);
+                	System.out.println("Checking group1");
+                }
+			}
+		});
+		groupTwo.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(groupTwo.isSelected()) {
+                    groupTwo.setSelected(false);
+					radioGroup.clearCheck();
+					System.out.println(chan.getChanID() + " removed from group " + chan.getGroup());
+					group.get(chan.getGroup()).remove(chan);
+					chan.setGrouped(false);
+                }
+                else{
+                	makeGroup(2);
+                	groupOne.setSelected(false);
+                	groupTwo.setSelected(true);
+                	groupThree.setSelected(false);
+                	groupFour.setSelected(false);
+                	radioGroup.check(R.id.group2);
+                	System.out.println("Checking group2");
+                }
+			}
+		});
+		groupThree.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(groupThree.isSelected()) {
+					groupThree.setSelected(false);
+					radioGroup.clearCheck();
+					System.out.println(chan.getChanID() + " removed from group " + chan.getGroup());
+					group.get(chan.getGroup()).remove(chan);
+					chan.setGrouped(false);
+                }
+                else{
+                	makeGroup(3);
+                	groupTwo.setSelected(false);
+                	groupOne.setSelected(false);
+                	groupThree.setSelected(true);
+                	groupFour.setSelected(false);
+                	radioGroup.check(R.id.group3);
+                	System.out.println("Checking group3");
+                }
+			}
+		});
+		groupFour.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(groupFour.isSelected()) {
+					groupFour.setSelected(false);
+					radioGroup.clearCheck();
+					System.out.println(chan.getChanID() + " removed from group " + chan.getGroup());
+					group.get(chan.getGroup()).remove(chan);
+					chan.setGrouped(false);
+                }
+                else{
+                	makeGroup(4);
+                	groupTwo.setSelected(false);
+                	groupOne.setSelected(false);
+                	groupThree.setSelected(false);
+                	groupFour.setSelected(true);
+                	radioGroup.check(R.id.group4);
+                	System.out.println("Checking group4");
+                }
 			}
 		});
 	}
+	
+//	private void addRadioGroupListener() {		
+//		radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//			@Override
+//			public void onCheckedChanged(RadioGroup radGrp, int groupId) {
+//				switch (groupId){
+//					case R.id.nogroup:
+//						System.out.println(chan.getChanID() + " removed from group " + chan.getGroup());
+//						group.get(chan.getGroup()).remove(chan);
+//						chan.setGrouped(false);
+//						break;
+//					case R.id.group1:
+//						makeGroup(1);
+//						break;
+//					case R.id.group2:
+//						makeGroup(2);
+//						break;
+//					case R.id.group3:
+//						makeGroup(3);
+//						break;
+//					case R.id.group4:
+//						makeGroup(4);
+//						break;
+//				}				
+//			}
+//		});
+//	}
 
 	protected void makeGroup(int i) {
 		if (chan.isGrouped()) {
