@@ -2,18 +2,20 @@ package com.cs.oswego.edu.dawcs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class GroupListener implements OnSeekBarChangeListener {
+public class GroupListener extends Thread implements OnSeekBarChangeListener {
 	private List<OnSeekBarChangeListener> listeners = new ArrayList<OnSeekBarChangeListener>();
 	private Group group;
 	
 	public GroupListener () { }
 	
 	public void registerListener(Group group) {
-		this.group = group;	}
+		this.group = group;	
+	}
 	
 	public void addChangeListener(OnSeekBarChangeListener sbc) {
 		listeners.add(sbc);
@@ -30,9 +32,14 @@ public class GroupListener implements OnSeekBarChangeListener {
 	
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-		for (OnSeekBarChangeListener sbc : listeners) {
-			sbc.onProgressChanged(seekBar, progress, fromUser);
+		ListIterator<OnSeekBarChangeListener> sit = listeners.listIterator();
+		
+		int i = 0;
+		while (sit.hasNext() && (i <= listeners.size() - 1)) {
+			listeners.get(i).onProgressChanged(seekBar, progress, fromUser);
+			i++;
 		}
+		
 	}
 
 	@Override
