@@ -21,12 +21,14 @@ public class DAWCS extends Activity {
 
     public static final int NUM_STREAMS = 1;
     
-    private Channel chan;
     public static final Channels chans = new Channels();
-    private int numChans;
-    
-    static ArrayList<Channel> availableChans = new ArrayList<Channel>();
+    public static ArrayList<Channel> availableChans = new ArrayList<Channel>();
     public static HashMap<Integer, Group> groupsMap = new HashMap<Integer, Group>();
+    
+    private Channel chan;
+    
+    private int numChans;
+   
     
     HashMap<ChannelController, View> bufferMap = new HashMap<ChannelController, View>();
     

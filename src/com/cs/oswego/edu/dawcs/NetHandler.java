@@ -10,7 +10,7 @@ public class NetHandler{
 	private static NetHandler instance = null;
 	
 	public static final int DEFAULT_PORT = 21928;
-	public static final String DEFAULT_IP_ADDRESS = "192.168.56.1";
+	public static final String DEFAULT_IP_ADDRESS = "192.168.1.5";
 	
 	public volatile MIDIStream[] streams;
 	public volatile DatagramSocket[] sockets;

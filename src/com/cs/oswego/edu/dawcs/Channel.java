@@ -3,9 +3,11 @@ package com.cs.oswego.edu.dawcs;
 public class Channel {
 	private boolean doesExist = false;
 	private boolean isGrouped = false;
+	private boolean isMaster = false;
 	
 	private int chanID,
 				groupID;
+	
 	private double heq,
 		leq,
 		meq,
@@ -13,6 +15,8 @@ public class Channel {
 		fade;
 	
 	private Group group;
+	
+	public Channel() { }
 	
 	public Channel(int chanID, boolean isGrouped) {
 		this.chanID = chanID;
@@ -106,5 +110,13 @@ public class Channel {
 	
 	public void setGroup(int groupID) {
 		this.groupID = groupID;
+	}
+	
+	public void setToMaster(boolean isMaster) {
+		this.isMaster = isMaster;
+	}
+	
+	public boolean isMaster() {
+		return isMaster;
 	}
 }
