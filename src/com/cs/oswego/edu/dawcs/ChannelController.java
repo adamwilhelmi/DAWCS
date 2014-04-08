@@ -122,9 +122,11 @@ public class ChannelController extends LinearLayout {
 				public void onDialChanged(float delta, float val) {
 
 					if(val<=150){
-						double x = Math.floor((((val - 150)/150)*100));
+						//rotating left
+						double x = Math.ceil((((val - 150)/150)*100));
 						panLvl.setText("L " + Math.abs(x));
 					}else{
+						//rotating right
 						double x = Math.floor((((val - 150)/150)*100));
 						panLvl.setText("R " + Math.abs(x));
 					}
@@ -135,7 +137,7 @@ public class ChannelController extends LinearLayout {
 		if (show_gain) {
 			gain = (VerticalSlider) findViewById(R.id.gain);
 			gain.setMax(Byte.MAX_VALUE);
-			gain.setThumb(getResources().getDrawable(R.drawable.thumb1));
+			gain.setThumb(getResources().getDrawable(R.drawable.bnb_thumb));
 			gainLvl = (TextView) findViewById(R.id.gain_lvl);
 			gain.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 				@Override
@@ -159,7 +161,6 @@ public class ChannelController extends LinearLayout {
 		groupTwo = (RadioButton) findViewById(R.id.group2);
 		groupThree = (RadioButton) findViewById(R.id.group3);
 		groupFour = (RadioButton) findViewById(R.id.group4);
-//		addRadioGroupListener();
 		
 		groupOne.setOnClickListener(new OnClickListener() {
 			@Override
@@ -247,33 +248,6 @@ public class ChannelController extends LinearLayout {
 		});
 	}
 	
-//	private void addRadioGroupListener() {		
-//		radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//			@Override
-//			public void onCheckedChanged(RadioGroup radGrp, int groupId) {
-//				switch (groupId){
-//					case R.id.nogroup:
-//						System.out.println(chan.getChanID() + " removed from group " + chan.getGroup());
-//						group.get(chan.getGroup()).remove(chan);
-//						chan.setGrouped(false);
-//						break;
-//					case R.id.group1:
-//						makeGroup(1);
-//						break;
-//					case R.id.group2:
-//						makeGroup(2);
-//						break;
-//					case R.id.group3:
-//						makeGroup(3);
-//						break;
-//					case R.id.group4:
-//						makeGroup(4);
-//						break;
-//				}				
-//			}
-//		});
-//	}
-
 	protected void makeGroup(int i) {
 		if (chan.isGrouped()) {
 			group.get(chan.getGroup()).remove(chan);

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.app.Activity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -28,8 +29,6 @@ public class DAWCS extends Activity {
     public static HashMap<Integer, Group> groupsMap = new HashMap<Integer, Group>();
     
     HashMap<ChannelController, View> bufferMap = new HashMap<ChannelController, View>();
-    
-    Button addChannel;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +50,24 @@ public class DAWCS extends Activity {
         	chan = makeNewChan();
 			addChannel(ll, chan);
 		}
-        addChannel = (Button) findViewById(R.id.add_channel);
-        addChannel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-            	if (chans.isEmpty() || numChans == chans.size()) {
-            		chan = makeNewChan();
-            	} else {
-            		for (int i = 1; i < chans.size(); i++) {
-            			if (!chans.getChan(i).doesExist()) {
-            				chan = chans.getChan(i);
-            				chan.setExists(true);
-            				break;
-            			}
-            		}
-            	}
-                addChannel(ll, chan);
-            }
-        });
+//        addChannel = (Button) findViewById(R.id.add_channel);
+//        addChannel.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View arg0) {
+//            	if (chans.isEmpty() || numChans == chans.size()) {
+//            		chan = makeNewChan();
+//            	} else {
+//            		for (int i = 1; i < chans.size(); i++) {
+//            			if (!chans.getChan(i).doesExist()) {
+//            				chan = chans.getChan(i);
+//            				chan.setExists(true);
+//            				break;
+//            			}
+//            		}
+//            	}
+//                addChannel(ll, chan);
+//            }
+//        });
 
         NetHandler.getInstance().setWifiManager(((WifiManager) this.getSystemService(DAWCS.WIFI_SERVICE)));
        
@@ -84,6 +83,28 @@ public class DAWCS extends Activity {
         getMenuInflater().inflate(R.menu.dawc, menu);
         
         return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_button:
+            	if (chans.isEmpty() || numChans == chans.size()) {
+            		chan = makeNewChan();
+            	} else {
+            		for (int i = 1; i < chans.size(); i++) {
+            			if (!chans.getChan(i).doesExist()) {
+            				chan = chans.getChan(i);
+            				chan.setExists(true);
+            				break;
+            			}
+            		}
+            	}
+                addChannel((LinearLayout)findViewById(R.id.chanHolder), chan);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
     public void addChannel(final LinearLayout ll, Channel chan){

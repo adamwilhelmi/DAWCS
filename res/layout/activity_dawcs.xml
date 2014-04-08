@@ -18,13 +18,6 @@
         android:scrollbars="horizontal"
         android:background="@drawable/black_bg"
         android:tileMode="repeat" >
-     <Button
-            android:id="@+id/add_channel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="[+]"
-            android:textColor="@color/AliceBlue" />
     </LinearLayout>
 
 </com.cs.oswego.edu.dawcs.NonFocusingHorizontalScrollView>
