@@ -5,30 +5,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class ChannelController extends LinearLayout {
-	private Button close;
+	private ImageButton close;
 	private Dial pan;
 	private Dial eq_high;
 	private Dial eq_mid;
@@ -69,7 +62,7 @@ public class ChannelController extends LinearLayout {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.channel_layout, this);
 
-		close = (Button)findViewById(R.id.x);
+		close = (ImageButton)findViewById(R.id.x);
 		
 		List<Integer> avalChans = new ArrayList<Integer>();
 	    avalChans.add(0, chan.getChanID());

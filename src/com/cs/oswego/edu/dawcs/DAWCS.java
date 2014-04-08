@@ -50,24 +50,6 @@ public class DAWCS extends Activity {
         	chan = makeNewChan();
 			addChannel(ll, chan);
 		}
-//        addChannel = (Button) findViewById(R.id.add_channel);
-//        addChannel.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View arg0) {
-//            	if (chans.isEmpty() || numChans == chans.size()) {
-//            		chan = makeNewChan();
-//            	} else {
-//            		for (int i = 1; i < chans.size(); i++) {
-//            			if (!chans.getChan(i).doesExist()) {
-//            				chan = chans.getChan(i);
-//            				chan.setExists(true);
-//            				break;
-//            			}
-//            		}
-//            	}
-//                addChannel(ll, chan);
-//            }
-//        });
 
         NetHandler.getInstance().setWifiManager(((WifiManager) this.getSystemService(DAWCS.WIFI_SERVICE)));
        
