@@ -1,35 +1,32 @@
 package com.cs.oswego.edu.dawcs;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class Group {
+	private Channel master;
+	private Channel tmpMaster;
+	
 	private int groupID;
-	private HashMap<Integer, Channel> channels;
+	
+	private HashMap<ChannelController, Channel> channels;
+	private VerticalSlider masterSlider;
+	private ArrayList<VerticalSlider> slaveSliders;
 	
 	public Group() {
-		channels = new HashMap<Integer, Channel>();
+		channels = new HashMap<ChannelController, Channel>();
 	}
 	
-	public boolean add(Channel chan) {
+	public boolean add(ChannelController cc, Channel chan) {
 		if (channels.isEmpty()) {
-			channels.put(0, chan);
+			channels.put(cc, chan);
 			return true;
 		} else {
 			if (isInGroup(chan)) {
 				return false;
-			}
-			
-			int channelID = chan.getChanID();
-			
-			for (int i = 0; i < channels.size(); i++) {
-				if (channelID < channels.get(i).getChanID()) {
-					Channel tempChan = channels.get(i);
-					channels.put(i, chan);
-					add(tempChan);
-				} else {
-					channels.put(i, chan);
-				}
-			}
+			}			
+			channels.put(cc, chan);
 			return true;
 		}
 	}
@@ -39,19 +36,54 @@ public class Group {
 			return false;
 		} else {
 			if (isInGroup(chan)) {
-				for (int i = 0; i < channels.size(); i++) {
-					if (chan == channels.get(i)) {
-						channels.remove(i);
-						return true;
-					}					
+				for (ChannelController cc : channels.keySet()) {
+					if (channels.get(cc) == chan) {
+						channels.remove(cc);
+						break;
+					}
 				}
 			}
-			return false;
+			return true;
 		}
+	}
+	
+	public boolean remove(ChannelController cc) {
+		if (channels.isEmpty()) {
+			return false;
+		} else {
+			if (isInGroup(cc)) {
+				channels.remove(cc);
+			}
+			return true;
+		}
+		
+	}
+	
+	public Channel getMasterFader() {		
+		
+		for (Channel c : channels.values()) {
+			tmpMaster = c;
+			if (master == null) {
+				master = tmpMaster;
+				continue;
+			} 
+			
+			if (tmpMaster.getFade() > master.getFade()) {
+				master = tmpMaster;
+			}
+		}
+		
+		master.setToMaster(true);
+		
+		return master;
 	}
 	
 	public boolean isInGroup(Channel chan) {
 		return channels.containsValue(chan);
+	}
+	
+	public boolean isInGroup(ChannelController cc) {
+		return channels.containsKey(cc);
 	}
 	
 	public void setGroupID(int groupID) {
@@ -61,5 +93,12 @@ public class Group {
 	public int getGroupID() {
 		return groupID;
 	}
-
+	
+	public Collection<Channel> values() {
+		return channels.values();
+	}
+	
+	public Collection<ChannelController> keys() {
+		return channels.keySet();
+	}
 }

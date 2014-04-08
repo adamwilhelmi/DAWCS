@@ -48,12 +48,16 @@ public class ChannelController extends LinearLayout {
 	private Channels chans = DAWCS.chans;
 	
 	private HashMap<Integer, Group> group = DAWCS.groupsMap;
+	private GroupListener gl;
 	
 	private RadioGroup radioGroup;
 	private RadioButton groupOne;
 	private RadioButton groupTwo;
 	private RadioButton groupThree;
 	private RadioButton groupFour;
+	
+	public int masterProg;
+	public Channel masterChan;
 	
 	public ChannelController(Context context, boolean show_eq, boolean show_pan, boolean show_gain, Channel chanIn) {
 		super(context);
@@ -92,14 +96,33 @@ public class ChannelController extends LinearLayout {
             
         chanNumSpinner = (Spinner) findViewById(R.id.chan_num);
         
-        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this.getContext(), R.layout.spinner_item, avalChans);
+        final ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this.getContext(), R.layout.spinner_item, avalChans);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chanNumSpinner.setAdapter(dataAdapter);
         
         chanNumSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
         	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            	chans.getChan(pos);
+            	int newChan = Integer.parseInt(parent.getItemAtPosition(pos).toString());            	
+            	
+            	if (id > 0) {
+            		DAWCS.availableChans.add(chan);
+            		DAWCS.availableChans.remove(pos);
+            		
+            		/*if (!DAWCS.availableChans.isEmpty()) {
+            			avalChans.clear();
+                    	for (Channel available : DAWCS.availableChans) {
+                    		avalChans.add(available.getChanID());
+                    	}
+                    }*/
+            		
+            		dataAdapter.notifyDataSetChanged();
+            		System.out.println("Old Channel: " + chan.getChanID());
+            	}            	
+   
+            	//dataAdapter.notifyDataSetChanged();
+            	chan = chans.getChan(newChan);
+            	
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -143,15 +166,57 @@ public class ChannelController extends LinearLayout {
 				@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {
 				}
-
+	
 				@Override
 				public void onStartTrackingTouch(SeekBar seekBar) {
 				}
-
+	
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-					gainLvl.setText(String.format("%.1f",((gain.getProgress()/new Float(gain.getMax()))*100)));
-					double fade = (double)(gain.getProgress()/new Float(gain.getMax()));
+					if (chan.isGrouped()) {
+						gl = new GroupListener();
+						gl.registerListener(group.get(chan.getGroup()));
+						gain.setOnSeekBarChangeListener(gl);
+						
+						masterChan = group.get(chan.getGroup()).getMasterFader();
+						
+						System.out.println("I'm your master..." + masterChan.getChanID());
+						
+						for (Channel c : group.get(chan.getGroup()).values()) {
+							System.out.println(c.getChanID());
+						}
+						
+						System.out.println("Grouped");
+						
+						gl.addChangeListener(new OnSeekBarChangeListener() {
+
+							@Override
+							public void onProgressChanged(SeekBar seekBar,
+									int progress, boolean fromUser) {
+								if (chan == masterChan) {
+									gainLvl.setText(String.format("%.1f",((gain.getProgress()/new Float(gain.getMax()))*100)));
+									double fade = (double)(gain.getProgress()/new Float(gain.getMax()));
+									masterProg = (int) fade;
+									chan.setFade(fade);
+								} 
+							}
+
+							@Override
+							public void onStartTrackingTouch(SeekBar seekBar) {						
+							}
+
+							@Override
+							public void onStopTrackingTouch(SeekBar seekBar) {							
+							}
+							
+						});
+					} else {
+					
+						System.out.println("Not Grouped");
+						gainLvl.setText(String.format("%.1f",((gain.getProgress()/new Float(gain.getMax()))*100)));
+						double fade = (double)(gain.getProgress()/new Float(gain.getMax()));
+						chan.setFade(fade);
+					}
 				}
 			});
 		}
@@ -171,6 +236,8 @@ public class ChannelController extends LinearLayout {
 					System.out.println(chan.getChanID() + " removed from group " + chan.getGroup());
 					group.get(chan.getGroup()).remove(chan);
 					chan.setGrouped(false);
+					
+					System.out.println(chan.getChanID() + " Grouped: " + chan.isGrouped());
                 }
                 else{
                 	makeGroup(1);
@@ -253,10 +320,12 @@ public class ChannelController extends LinearLayout {
 			group.get(chan.getGroup()).remove(chan);
 			chan.setGrouped(false);
 		}
-		group.get(i).add(chan);
+		
+		group.get(i).add(this, chan);
 		chan.setGrouped(true);
 		chan.setGroup(i);
-		System.out.println(chan.getChanID() + " added to group " + chan.getGroup());
+		
+		System.out.println(chan.getChanID() + " added to group " + chan.getGroup() + " " + chan.isGrouped());
 	}
 
 	public void addCloseListener(OnClickListener ocl){
@@ -266,6 +335,5 @@ public class ChannelController extends LinearLayout {
 	public int getChannelNum(){
 		return chan.getChanID();
 	}
-
 }
 
