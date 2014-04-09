@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -40,8 +41,11 @@ public class ChannelController extends LinearLayout {
 	private Channel chan;
 	private Channels chans = DAWCS.chans;
 	
+	private ArrayAdapter<Integer> dataAdapter;
 	private HashMap<Integer, Group> group = DAWCS.groupsMap;
+	private List<Integer> availChans;
 	private GroupListener gl;
+	private GroupListener masterListener;
 	
 	private RadioGroup radioGroup;
 	private RadioButton groupOne;
@@ -68,18 +72,28 @@ public class ChannelController extends LinearLayout {
 
 		close = (ImageButton)findViewById(R.id.x);
 		
-		List<Integer> avalChans = new ArrayList<Integer>();
-	    avalChans.add(0, chan.getChanID());
+		availChans = new ArrayList<Integer>();
+	    availChans.add(0, chan.getChanID());
+	    
+        /*for (int i = 0; i < chans.maxChannels(); i++) {
+        	if (i == 0) {
+        		chanStr.add(0, c + chan.getChanID());
+        	} else if ((i + 1) == chan.getChanID()) {
+        		continue;
+        	} else {
+        		chanStr.add(c + (i + 1));
+        	}
+        }*/
 	    
 	    if (!DAWCS.availableChans.isEmpty()) {
         	for (Channel available : DAWCS.availableChans) {
-        		avalChans.add(available.getChanID());
+        		availChans.add(available.getChanID());
         	}
         }
             
         chanNumSpinner = (Spinner) findViewById(R.id.chan_num);
         
-        final ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<Integer>(this.getContext(), R.layout.spinner_item, avalChans);
+        dataAdapter = new ArrayAdapter<Integer>(this.getContext(), R.layout.spinner_item, availChans);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         chanNumSpinner.setAdapter(dataAdapter);
         
@@ -91,6 +105,7 @@ public class ChannelController extends LinearLayout {
             	if (id > 0) {
             		DAWCS.availableChans.add(chan);
             		DAWCS.availableChans.remove(pos);
+            		DAWCS.updateAvailableChannels();
             		
             		/*if (!DAWCS.availableChans.isEmpty()) {
             			avalChans.clear();
@@ -130,7 +145,12 @@ public class ChannelController extends LinearLayout {
 					if(val<=150){
 						//rotating left
 						double x = Math.ceil((((val - 150)/150)*100));
-						panLvl.setText("L " + Math.abs(x));
+						double y = Math.abs(x);
+						if(y == 0.0d){
+							panLvl.setText("0.0");
+						} else{
+							panLvl.setText("L " + Math.abs(x));
+						}
 					}else{
 						//rotating right
 						double x = Math.floor((((val - 150)/150)*100));
@@ -146,13 +166,6 @@ public class ChannelController extends LinearLayout {
 			gain.setThumb(getResources().getDrawable(R.drawable.bnb_thumb));
 			gainLvl = (TextView) findViewById(R.id.gain_lvl);
 			gain.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-				@Override
-				public void onStopTrackingTouch(SeekBar seekBar) {
-				}
-	
-				@Override
-				public void onStartTrackingTouch(SeekBar seekBar) {
-				}
 	
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -161,11 +174,19 @@ public class ChannelController extends LinearLayout {
 						gl = new GroupListener();
 						gl.registerListener(group.get(chan.getGroup()));						
 						
-						gain.setOnSeekBarChangeListener(gl);						
+						gain.setOnSeekBarChangeListener(gl);
 						
+						masterChan = group.get(chan.getGroup()).getMasterFader();
+						
+						//System.out.println("I'm your master..." + masterChan.getChanID());
+						
+						/*for (Channel c : group.get(chan.getGroup()).values()) {
+							System.out.println(c.getChanID());
+						}*/
+						
+						//System.out.println("Grouped");
 						for (final Channel c : group.get(chan.getGroup()).values()) {
 							gl.addChangeListener(new OnSeekBarChangeListener() {
-	
 								@Override
 								public void onProgressChanged(SeekBar seekBar,
 										int progress, boolean fromUser) {
@@ -233,6 +254,18 @@ public class ChannelController extends LinearLayout {
 						currentProgress = gain.getProgress();
 						chan.setFade(fade);
 					}
+				}
+
+				@Override
+				public void onStartTrackingTouch(SeekBar arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onStopTrackingTouch(SeekBar arg0) {
+					// TODO Auto-generated method stub
+					
 				}
 			});
 		}
@@ -329,6 +362,11 @@ public class ChannelController extends LinearLayout {
                 }
 			}
 		});
+		
+		//testing methods to change dials on the fly
+		setPanImgById(R.drawable.dial1);
+		setEQImgsById(R.drawable.dial1);
+		setSliderImgsByIds(R.drawable.thumb1, R.drawable.seekbar_progress);
 	}
 	
 	protected void makeGroup(int i) {
@@ -358,6 +396,26 @@ public class ChannelController extends LinearLayout {
 	
 	public TextView getGainLvl() {
 		return gainLvl;
+	}
+	
+	public void setPanImgById(int id){
+		pan.setImageResource(id);
+	}
+	
+	public void setEQImgsById(int id){
+		eq_high.setImageResource(id);
+		eq_mid.setImageResource(id);
+		eq_low.setImageResource(id);
+	}
+	
+	public void setSliderImgsByIds(int thumbId, int progress){
+		gain.setThumb(getResources().getDrawable(thumbId));
+	}
+	
+	public void updateAvailableChannels(List<Integer> channels){ //TODO
+		this.availChans = channels;
+		dataAdapter.notifyDataSetChanged();
+		System.out.println("Updating available channels in channel# " + chan.getChanID());
 	}
 }
 
