@@ -35,7 +35,6 @@ public class ChannelController extends LinearLayout {
 	private final boolean show_pan;
 	private final boolean show_gain;
 	
-	private int channelNum;
 	private int currentProgress;
 	
 	private Channel chan;
@@ -43,7 +42,6 @@ public class ChannelController extends LinearLayout {
 	
 	private HashMap<Integer, Group> group = DAWCS.groupsMap;
 	private GroupListener gl;
-	private GroupListener masterListener;
 	
 	private RadioGroup radioGroup;
 	private RadioButton groupOne;
@@ -72,16 +70,6 @@ public class ChannelController extends LinearLayout {
 		
 		List<Integer> avalChans = new ArrayList<Integer>();
 	    avalChans.add(0, chan.getChanID());
-	    
-        /*for (int i = 0; i < chans.maxChannels(); i++) {
-        	if (i == 0) {
-        		chanStr.add(0, c + chan.getChanID());
-        	} else if ((i + 1) == chan.getChanID()) {
-        		continue;
-        	} else {
-        		chanStr.add(c + (i + 1));
-        	}
-        }*/
 	    
 	    if (!DAWCS.availableChans.isEmpty()) {
         	for (Channel available : DAWCS.availableChans) {
@@ -168,28 +156,24 @@ public class ChannelController extends LinearLayout {
 	
 				@Override
 				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+					System.out.println("Adjusting seek bar. Channel is grouped: " + chan.isGrouped());
 					if (chan.isGrouped()) {
 						gl = new GroupListener();
-						gl.registerListener(group.get(chan.getGroup()));
+						gl.registerListener(group.get(chan.getGroup()));						
 						
+						gain.setOnSeekBarChangeListener(gl);						
 						
-						gain.setOnSeekBarChangeListener(gl);
-						
-						masterChan = group.get(chan.getGroup()).getMasterFader();
-						
-						//System.out.println("I'm your master..." + masterChan.getChanID());
-						
-						/*for (Channel c : group.get(chan.getGroup()).values()) {
-							System.out.println(c.getChanID());
-						}*/
-						
-						//System.out.println("Grouped");
-						for (Channel c : group.get(chan.getGroup()).values()) {
+						for (final Channel c : group.get(chan.getGroup()).values()) {
 							gl.addChangeListener(new OnSeekBarChangeListener() {
 	
 								@Override
 								public void onProgressChanged(SeekBar seekBar,
 										int progress, boolean fromUser) {
+									
+									if (chan.isGrouped()) {
+										masterChan = group.get(chan.getGroup()).getMasterFader();
+									}
+									
 									if (chan == masterChan) {
 										gainLvl.setText(String.format("%.1f",((gain.getProgress()/new Float(gain.getMax()))*100)));
 										double fade = (double)(gain.getProgress()/new Float(gain.getMax()));
@@ -198,31 +182,39 @@ public class ChannelController extends LinearLayout {
 											if (cc.getChannelNum() == masterChan.getChanID()) {
 												continue;
 											}
+											
 											cc.gain.setProgress(gain.getProgress() - cc.currentProgress);
+											
 											cc.gain.updateThumb();
 											cc.gainLvl.setText(String.format("%.1f",((cc.gain.getProgress()/new Float(cc.gain.getMax()))*100)));
 											fade = (double)(cc.gain.getProgress()/new Float(cc.gain.getMax()));
+											cc.chan.setFade(fade);
 										}
-									} /*else {
-										//gainLvl.setText(String.format("%.1f",((gain.getProgress()/new Float(gain.getMax()))*100)));
-										//double fade = (double)(gain.getProgress()/new Float(gain.getMax()));
-										//chan.setFade(fade);
-										for (ChannelController cc : group.get(chan.getGroup()).keys()) {
+									} else {
+										gainLvl.setText(String.format("%.1f",((gain.getProgress()/new Float(gain.getMax()))*100)));
+										double fade = (double)(gain.getProgress()/new Float(gain.getMax()));
+										chan.setFade(fade);
+										/*for (ChannelController cc : group.get(chan.getGroup()).keys()) {
 											if (cc.getChannelNum() == chan.getChanID()) {
 												continue;
 											}
 											if (cc.currentProgress < gain.getProgress()) {
 												cc.gain.setProgress(gain.getProgress() - cc.currentProgress);
 												cc.gainLvl.setText(String.format("%.1f",((cc.gain.getProgress()/new Float(cc.gain.getMax()))*100)));
-												//fade = (double)(cc.gain.getProgress()/new Float(cc.gain.getMax()));
+												cc.chan.setFade((double)(cc.gain.getProgress()/new Float(cc.gain.getMax())));
 											} else {
 												cc.gain.setProgress(cc.currentProgress - gain.getProgress());
 												cc.gainLvl.setText(String.format("%.1f",((cc.gain.getProgress()/new Float(cc.gain.getMax()))*100)));
-												//fade = (double)(cc.gain.getProgress()/new Float(cc.gain.getMax()));
+												cc.chan.setFade((double)(cc.gain.getProgress()/new Float(cc.gain.getMax())));
 											}
 											
-										}
-									}*/
+										}*/
+										
+									}
+									
+									if (!chan.isGrouped()) {
+										currentProgress = gain.getProgress();
+									}
 								}
 	
 								@Override
@@ -236,7 +228,6 @@ public class ChannelController extends LinearLayout {
 							});
 						}
 					} else {
-						//System.out.println("Not Grouped");
 						gainLvl.setText(String.format("%.1f",((gain.getProgress()/new Float(gain.getMax()))*100)));
 						double fade = (double)(gain.getProgress()/new Float(gain.getMax()));
 						currentProgress = gain.getProgress();
@@ -342,7 +333,7 @@ public class ChannelController extends LinearLayout {
 	
 	protected void makeGroup(int i) {
 		if (chan.isGrouped()) {
-			group.get(chan.getGroup()).remove(chan);
+			group.get(chan.getGroup()).remove(this);
 			chan.setGrouped(false);
 		}
 		
@@ -350,7 +341,7 @@ public class ChannelController extends LinearLayout {
 		chan.setGrouped(true);
 		chan.setGroup(i);
 		
-		System.out.println(chan.getChanID() + " added to group " + chan.getGroup() + " " + chan.isGrouped());
+		//System.out.println(chan.getChanID() + " added to group " + chan.getGroup() + " " + chan.isGrouped());
 	}
 
 	public void addCloseListener(OnClickListener ocl){

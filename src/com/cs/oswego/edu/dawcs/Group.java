@@ -11,8 +11,6 @@ public class Group {
 	private int groupID;
 	
 	private HashMap<ChannelController, Channel> channels;
-	private VerticalSlider masterSlider;
-	private ArrayList<VerticalSlider> slaveSliders;
 	
 	public Group() {
 		channels = new HashMap<ChannelController, Channel>();
