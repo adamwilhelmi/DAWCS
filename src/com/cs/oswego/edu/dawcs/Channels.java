@@ -2,6 +2,7 @@ package com.cs.oswego.edu.dawcs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Channels {
 	private static final int MAX_CHANS = 16;
@@ -80,5 +81,8 @@ public class Channels {
 	
 	public boolean isEmpty() {
 		return channels.isEmpty();
+	}
+	public List<Channel> getAllChannels(){
+		return new ArrayList<Channel>(channels.values()); 
 	}
 }

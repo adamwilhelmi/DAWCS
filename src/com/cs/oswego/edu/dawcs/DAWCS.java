@@ -3,6 +3,7 @@ package com.cs.oswego.edu.dawcs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class DAWCS extends Activity {
-    final ArrayList<ChannelController> channels = new ArrayList<ChannelController>();
+    final static ArrayList<ChannelController> channels = new ArrayList<ChannelController>();
 
     public static final int NUM_STREAMS = 1;
     
@@ -175,6 +176,18 @@ public class DAWCS extends Activity {
     	t.setText("  ");
     	
     	bufferMap.put(cc, t);
+    }
+    
+    public static void updateAvailableChannels(){ //TODO
+    	List<Integer> availChanNums = new ArrayList<Integer>();
+		for(Channel c : availableChans){
+			availChanNums.add(c.getChanID());
+		}
+			
+    	for(ChannelController cc : channels){
+    		cc.updateAvailableChannels(availChanNums);
+    		
+    	}
     }
 }
     

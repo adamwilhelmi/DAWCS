@@ -1,10 +1,11 @@
 package com.cs.oswego.edu.dawcs;
 
+import android.graphics.PorterDuff;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.SeekBar;
 
 public class VerticalSlider extends SeekBar{
@@ -65,4 +66,12 @@ public class VerticalSlider extends SeekBar{
 
 		return true;
 	}
+	
+	public void setProgressBarColor(int newColor){ 
+		LayerDrawable ld = (LayerDrawable) getProgressDrawable();
+		ld.setColorFilter(newColor, PorterDuff.Mode.SRC_IN);
+	}
+	
+	
+	
 }

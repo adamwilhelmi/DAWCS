@@ -3,12 +3,12 @@
 
     <gradient
         android:angle="180"
-        android:startColor="@color/DarkSlateGray"
-        android:centerColor="@color/Black"
-        android:endColor="@color/DarkSlateGray"
+        android:startColor="@color/Black"
+        android:centerColor="@color/Gray"
+        android:endColor="@color/Black"
         android:type="linear"/>
 
-    <corners android:radius="0px" />
+    <corners android:radius="5px" />
 
     <padding
         android:bottom="2dp"

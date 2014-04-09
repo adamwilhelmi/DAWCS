@@ -3,14 +3,13 @@
    
     <item>
         <clip>
-        <bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-            android:src="@drawable/stripe_bg"
-            android:tileMode="repeat"
-            android:antialias="true"
-            android:dither="false"
-            android:filter="false"
-            android:gravity="left"
-        />
+        <shape>
+            <gradient
+                android:angle="90"
+                android:endColor="@android:color/transparent"
+                android:centerColor="#80ff0000"
+                android:startColor="@android:color/transparent" />
+        </shape>
         </clip>
     </item>
 </layer-list>
