@@ -37,3 +37,4 @@ bin/classes/com/cs/oswego/edu/dawcs/ChannelController.class
 *.db
 bin/classes.dex
 bin/DAWCS.apk
+*.apk
