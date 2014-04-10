@@ -82,6 +82,7 @@ public class Channels {
 	public boolean isEmpty() {
 		return channels.isEmpty();
 	}
+	
 	public List<Channel> getAllChannels(){
 		return new ArrayList<Channel>(channels.values()); 
 	}
